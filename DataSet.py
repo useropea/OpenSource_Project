@@ -14,6 +14,7 @@ df["country"] = df["country"].fillna("Unknown")
 df["rating"] = df["rating"].fillna("Unknown")
 df["listed_in"] = df["listed_in"].fillna("Unknown")
 
+
 year_count = df.groupby("release_year")["show_id"].count()
 
 type_year_mean = df.groupby("type")["release_year"].mean()
@@ -33,12 +34,15 @@ plt.ylabel("Count")
 plt.tight_layout()
 plt.show()
 
-plt.figure()
-year_count.sort_index().plot(kind="line")
+df_recent = df[df["release_year"] >= 1990]
+year_counts = df_recent.groupby("release_year")["show_id"].count()
+
+plt.figure(figsize=(10, 5))
+plt.plot(year_counts.index, year_counts.values, marker='o')
 plt.title("Number of Titles by Release Year")
 plt.xlabel("Release Year")
 plt.ylabel("Count")
-plt.tight_layout()
+plt.grid(True)
 plt.show()
 
 df_ml = df[["type", "release_year", "rating", "country", "listed_in"]].copy()
