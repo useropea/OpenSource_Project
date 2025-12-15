@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 df = pd.read_csv("netflix_titles.csv")
@@ -59,9 +59,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-model = LogisticRegression(max_iter=2000)
+model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train, y_train)
-
 y_pred = model.predict(X_test)
 
 acc = accuracy_score(y_test, y_pred)
@@ -70,5 +69,5 @@ cm = confusion_matrix(y_test, y_pred)
 
 print("\n[ML 평가]")
 print("Accuracy:", acc)
-print("measure:", f1)
+print("F1-Score:", f1)
 print("Confusion Matrix:\n", cm)
